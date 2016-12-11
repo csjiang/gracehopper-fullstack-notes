@@ -73,6 +73,7 @@ gracehopper-fullstack-notes
 - For finding a particular topic or section, *cmd + F* and *cmd + shift + F* are your friends. 
 - There is much more organization and detail in some of the later notes than in the former ones. I am especially proud of my notes on the React/Redux series, so do check those out. :) 
 - In most of the files, I've indicated in comments the portions that are pre-reading notes, lecture notes, workshop notes, and review notes.
+- **Bonus:** Some of my files are already in .md format, so YOU CAN READ THEM RIGHT ON GITHUB! Check it out: **[Week 4 jQuery notes](./week4-notes/notes_jQuery.md)**, **[week 5 es6 notes](./week5-notes/notes_es6.md)**
 
 ##<a name="plox"></a>  My requests to you: 
 - If you happen across any errors or egregious oversights, please let me know in a pull request or over Slack (**@christinejiang**).
