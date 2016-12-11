@@ -1,0 +1,295 @@
+chrome dev tools: 
+you can view default styles for h1 tag 
+blue highlighting: represents content itself
+green: padding/borders
+yellow: margin highighting. Space inbtw border and other elements. 
+
+
+css props:
+width/height: can be styled in px, % + view height (vh) -- latter two used for responsive styling
+display
+margin/padding
+border
+text-align
+color
+position
+font-size (px, % or vh)
+
+CSS selectors
+.class
+#id
+* --> selects all eleemnts
+div,p --> selects all <div> elmts and all <p> elmts
+div p --> selects all <p> elmts inside <div> elmts
+div>p --> selects all <p> elmts that are child of <div> 
+
+
+      ul {
+          list-style: none; 
+          padding: 0;
+
+          list-style none --> without bullets.
+
+devtools- user agent style sheet- built-in styles for browser. 
+bottom: 0 --> elmt fixed at bottom
+
+================
+devtools notes: 
+
+- edit page elmts and style in realtime
+- JS debugger
+- performance helper 
+
+elements tab: DOM in a tree format. 
+CSS for elmt on right side
+
+styles view: displays CSS rules for active elements
+- enable/disable properties
+- edit rules for pseudo-classes like hover
+ - link directly to SS source
+ //styles displayed w most important style displyaed first
+
+
+//to make changes permanent edit source files: 
+sources panel: 
+save file after making changes (saves to browser's storage) on asterisked file fr changes
+can view changes made in time 
+
+
+to save over original source file: right click and do save as 
+
+//Bootstrap: a collection of HTML, CSS and JS files for styling 
+
+installation 2 ways: 
+1)  download bootstrap.css and link to that file in HTML: put following in header-
+<link rel = "stylesheet" type = "text/css" href = "bootstrap.css">
+
+2) use a CDN to download bootstrap whenever page loads: 
+<link rel= "stylesheet" type="text/css" href = "...bootstrap.min.css">
+
+Using CDN, page will take extra time to load and will not be available offline. But libraries load fast if there are just a few, and CDN can reduce bloat inside project + it is easier to keep libraries updated. 
+
+
+//barebones navbar: 
+<nav class='navbar navbar-default'>
+<div class='navbar-header'>
+Christine Jiang
+</div>
+<ul class='nav navbar-nav navbar-right'> //entire menu will float to right
+<li class='active'><a href='#'>About me</a></li>
+<li>Portfolio</li>
+<li>Contact</li>
+</ul>
+</nav>
+
+
+//form group: groups together label and input for form
+<div> 
+<h3> Contact Me </h3> 
+<div class="form-group">
+<label> Your Name</label>
+<input class="form-control">
+</div>
+<div class="form-group">
+<label>Your email</label>
+<input class="form-control">
+</div>
+<div class="form-group">
+<label>What do you want to tell me?</label>
+<textarea class="form-control"></textarea>
+</div>
+<button class="btn btn-default">Submit</button>
+</div>
+
+//CSS box model:
+content, padding, border, margin, other elmts
+
+setting WIDTH property of an elmt will change area of elmt's content box. 
+- by default, width is only calc'd by content box; does not take padding/border into account.
+
+"box-sizing" property: can change how width is calculated. 
+
+html {
+	box-sizing: 'border-box'
+} --> changes calc of width of elmt to include padding and border. Gaining in popularity now. 
+
+DevTools' 'elements' tab lets you study Box model for each elmt in HTML file. 
+
+use margin-left/right: auto to center elmts
+in most instances, setting to "auto" means "take up as much space as possible" 
+
+
+//Block vs inline elements: 
+block elements  
+	- start on a new line
+	- HEIGHT/WIDTH: 
+		-width: take up max width available.
+			-(not necess to set width/give it 100% width to make it fill parent horizontally.)
+			- if no width is set, will expand naturally to fit its parent container
+		- height: if no height is set, will expand naturally to fit child elements (assuming child elmts are not floated or positioned) 
+	- assuming no floats/positioning on surrounding elmts, by default, will be placed BELOW prev elmts in markup. 
+		//not necessary to "clear" it; assuming no floats are affecting it, it will "clear" automatically and will start on next "line" in page's output. 
+	- VERTICAL-ALIGN: ignores vertical-align property
+	- MARGINS/PADDING: can have margins/padding
+	- EXAMPLES: h1-h5, div, p, ul, header, nav, li, form 
+		structural elements
+
+inline elements
+	- "a box that acts like text"
+	- occur inline w rest of elmts/text
+	- will not clear previous content to drop to next line like block lements
+	- subject to white-space settings in CSS 
+	- MARGINS/PADDING: ignores top and bottom margin settings, but applies left/right margins and any padding. 
+	- HEIGHT/WIDTH: ignores width and height properties. 
+	- VERTICAL-ALIGN: is subject to vertical-align property. 
+	- if floated L or R, will automatically become a block-level elmt subject to all block characteristics. 
+	- only take up as much width as necessary
+	- EXAMPLES: span, a, em, i, b, cite, mark, code
+		text-based elements
+
+nesting: 
+	- any block elmt can go inside another block elmt. 
+	- any inline elmt can go inside a block elmt. 
+	- block elmts CANNOT go inside inline elmts
+		exception: <a> elmt can be wrapped around any content. 
+
+by default, <li> items are block elmts. 
+DevTools will tell you that each takes up full width of its parent element. 
+
+To change inline/block/inline-block display: 
+CSS "display" property.
+//important note: CSS makes block and inline distinction but from HTML5 perspective there is more granular categorization: see content models 
+
+//inline-block
+	makes elmt generate a block box laid out as if it were an inline box. preserves block capabilities such as setting width, height, top and bottom margins/paddings. 
+
+	//uses: 
+	- fix IE6 double-margin bug on floated elmts - margins on same side as direction of float will result in doubled margin. 
+	- place multiple block-like elmts on same horiz line w/o floating them
+	- allow inline elmt to have width/height while remaining inline
+	- allow inline elmt to have padding/margins 
+
+	//nb: 
+	- inline-block elmts are white-space dependent; if you use inline-block in a list (e.g. in nav bar) list items will have unwanted space next to each other. 
+	- for stuff w variable heights and all inline-block, will need to add vertical-align: top to make sure alignments are not staggered.
+
+	(more: http://www.brunildo.org/test/inline-block.html)
+
+
+
+compatibility hack for inline block: 
+.myclass {
+	display:inline-block;
+	*display:inline;
+	zoom:1;
+}
+
+//replaced elements: 
+	- neither block nor inline. 
+	- kind of like inline elmts but with block-like structure. 
+	- elmts whose appearance and dimensions are defined by an external resource. 
+	- can have intrinsic dimensions- eg if img elmt has width set to auto, width will come from the linked image file itself. 
+		intrinsic dimensions also define ratio for scaling 
+			in case only width is specified for instance, height will come from this intrinsic ratio. 
+	- can also have visual formatting requirements imposed by the elmt outside of the control of CSS. 
+	- EXAMPLES: img, form elmts (button, input, select, textarea), object 
+
+	** for non-replaced inline elmts, amt of space taken up (contribution to line height) is determined by the line-height property, NOT the border and padding even though they appear visually around the content. 
+
+//white-space 
+	
+//background
+background-color
+background-image
+background-position
+background-size
+background-repeat (how to repeat bckgd images)
+background-origin (positioning area of bckgd images)
+background-clip (painting area of bckgd images) 
+background-attachment (whether bckgd images are fixed or scrolls w rest of page)
+
+
+
+
+//border-style: top right bottom left 
+//can have diff styles for difft sides. 
+- dotted
+- dashed
+- solid
+- double
+- groove (3d grooved; effect depends on border color value) 
+- ridge (3d ; effect depends on border color value) 
+- inset (3d; "")
+- outset (3d; "")
+- none 
+- hidden
+
+//border-width: top right bottom left.
+//can be set as a size (px, pt, cm, em, etc) or w three predefined vals: thin, medium, or thick. 
+
+//border-color: top right bottom left. 
+//can be set by name ("red"), hex ("#ff0000"), rgb("rgb(255,0,0)"), transparent
+//if not set, it inherits color of elmt.
+
+//border-top-style: //can style border indiv sides like so
+
+//border-style: dotted solid double; 
+--> top is dotted, l/r solid, bottom double
+//border-stle: dotted solid;
+--> top and bottom dotted; l/r solid. 
+
+//border: 5px solid red; (this is width, style and color in one)
+
+//font-size: 
+//can be set with defaults ("medium [default], xx-small, small, xx-large, smaller [than parent elmt]"), length(px, cm, etc), % (percent of parent elmt font-size), initial (default), inherit(from parent) 
+
+//float: 
+//eg navbar-right = float to right
+//inline blocks: elmt still has height but can have mulitple blocks on one line. this is like what bootstrap does w rows and columns. 
+
+---- POSITION ----
+//position can also be "fixed"
+//position: relative; 
+//can position relative to where it was originally 
+
+//(default = static; wherver an elmt ends up in the flow of doc given order/display properties. 
+//top: 100px; (moves down from top 100px) 
+left: 50px; (moves to right 50px; )
+//will leave a gap where it once was
+
+//position: absolute; 
+//top: 100px; (moves down from top 100px) 
+left: 50px; (moves to right 50px; )
+//positions it relative to closest relatively-positioned parent element; if none exists it just is positioned relative to the body/document itself.  
+//will not leave a gap where it once was
+
+---- Using absolute and relative positioning together ----
+
+Page elmt w relative positioning gives you ctrl of absolutely positioning children elmts inside it.
+
+If you forget rel postning on parent the child elmts will absolutely position themselves relative to the body element. 
+
+pros of using absolute positioning: 
+ 	- good cross-browser support
+ 	- less dependence on floats
+ 	- less dependence on margins, which are buggy w old IE
+
+cons of absolute positioning: 
+	- positioned elmts removed from natural doc flow
+	- can cause maintenance problems if you have to add other elmts near positioned one. 
+
+//defining dimensions of absolutely positioned elmt /o width or height: 
+
+.box {
+	position: relative;
+	width: 400px;
+	height: 400px;
+}
+
+.inner-box {
+	position: absolute; 
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+} --> causes inner elmt to fill outer elmt's content area. 

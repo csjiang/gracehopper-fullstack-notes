@@ -1,0 +1,354 @@
+<!-- HTML governs content of site; CSS the style. Taken together, they are responsible for the layout. 
+
+browser rendering: creates layout. 
+HTML -> HTML parser -> DOM Tree <- DOM 
+DOM Tree -> Attachment <- Style Rules <- CSS Parser <- Style Sheets
+
+Attachment -> Render Tree <-> Layout 
+Render Tree <- Painting <- ???
+
+CSS allows us to not clutter HTML with inline style declarations. 
+
+CSS - 
+- the web needs to look nice. 
+- Impressive UIs are merely JS leveraging CSS. 
+- no alternatives, atm
+- many devs, event front-end JS devs, are rusty. 
+
+CSS terms: 
+article li > a:hover - the elem we select
+declaration is the part in brackets- consists of a property and a value. 
+
+--> 
+article li > a:hover {
+	border: 1px solid red; <!-- keywd from set of specs we choose -->
+	font-style: italic; 
+}
+
+<!-- CS, as opposed to JS, is declarative, rather than imperative. JS: an imperative lang. We say do this thing and see what result is. CSS is declarative: we say, please apply these styles to this element, and present it to me. We don't have to worry about how that is actually implemented. SQL is also declarative. -->
+
+<!-- CSS Selectors: cf selector.js --> 
+tag --> input
+class --> .btn
+id --> #upload
+attribute [type="file"]
+pseudo-element --> ::
+pseudo-class --> :hover
+* (all elements) 
+
+combinators: 
+tag.class --> selects an elmt matching both tag and class
+tag .class --> selects elmt with class whose ancestor matches tag
+tag,.class --> elmt with either tag or class 
+tag +.class --> elmt with class selector whose left sibling matches tag. 
+
+Cascading style sheets: combining styles 
+'cascading'- multiple stylesheets from difft sources might apply to the same webpage. author can write their own, user can add their own too (no longer supported by Chrome, but you can have an extension that does that), browser can also have one. these need to be combined to create one view for the end-user. They are combined/cascaded into one stylesheet 
+
+an element's style is a merge of every rule whose selector matches from the sourced stylesheets. 
+
+in HTML,
+- inline styling takes foremost precedence. 
+ if two styles are listed 
+<link rel="stylesheet" href="styleB.css"/>
+<link rel="stylesheet" href="styleA.css"/>
+- the latter one, styleA, takes precedence. the earlier one, if has styling on the same elmt, is overwritten. 
+- in style column in dev tools, what is on the top is the most recently applied (ie overriding) one. 
+
+
+specificity precedence: 
+if selector or combo of selectors is more specific, the more specific one's styling will win. eg:
+	-class is more specific than tag like <div> 
+	id is more specific than class 
+	inline style always wins 
+	but if you have !important keyword anywhere, that will win out. (it's not best practice, though.)
+	class + id vs id + class: depends on which rule gets defined last. combinators don't matter, either. class > id vs class id still has the same rules applied to it. 
+
+declaration specificity hierarchy
+	!important > inline > id > class (includes attribute and pseudo-class) > tag (includes pseudo-element) > order of occurrence in file. 
+
+	wildcard * and combinators don't have effect on specificity. 
+
+Browser compatibility: 
+	certain browsers have their own stylesheets. Certain ones will render raw HTMl differently- have automatic stylings. 
+
+	To make website look uniform across many browsers: 
+		1) use CSS "reset"- stylesheets you can find online, which takes away any styling that people have already applied - stat w a blank slate. 
+		2) css normalization- gives you a uniform baseline across browsers
+
+Layout 
+	BOX MODEL- margin (between elmts) -> border (part of elmt) -> padding (between content and edge of elmt) -> content
+
+	all elmts, by default, are content box: 
+	saying the following says the sizing of elmt (height and width) include everything up to and including only content box. 
+		{
+		box-sizing: content-box;
+		}
+	padding box: saying the following says the sizing of elmt (height and width) include everything up to and including padding box. 
+
+	{
+	box-sizing: border-box; 
+	}
+
+Box model is fractal! 
+	DOM is made up of rectangles. Each elmt follows box model.
+	Each has its own padding, margin, content, border etc. 
+
+Layout: block vs inline display
+	block by default: <div> <h1> <h2> etc., <p> <form> <header> <footer> 
+	<main> <section> <nav>
+		- by default will try to clear their onw line
+		- default width 100% of parent
+		- try to expand to take up whole line
+		- default height expands to fit all children
+
+	inline: <a> <span> <strong> <em>
+		- can only add side margins
+		- height and width fit content
+		- flows w content, does nto clear line
+		- cannot set height or width 
+
+	inline-block <img> <input> <textarea> (?? on last one) 
+		- flows w content
+		- default width and height expand to fit all children
+		- can have margins on all sides
+		- can set height and width 
+
+Units: setting height and width, font sizing: 
+	- px 
+	- % (of parent elmt size)
+	- em (a unit referring to font-size of that elmt- eg font-size is 14px and width is 2em - that is 28px.) 
+	- rem (ems of root elmt- html tag. if you size everything w rems, you can easily make website responsive- just change font size of root elmt and everything else will stay in proportion to itself.)
+	- viewport-width (vw)
+	- vh
+	- etc
+
+Floats
+	<body> 
+	<div> ...</div>
+	<div style="float:right;">...</div>
+	<div style="clear:right;">...</div>
+</body>
+	use the clear attribute to not have overlap. 
+
+	used to create a lot of grid/column elmts. Originally intended for wrapping text. If you use it for grid you must use clearfix to avoid parent collapse: 
+
+		floating elmts can float out of parent and to the direction specified. Parent containing it will collapse so inline elmts arent on their own lines anymore. Inline elmts will wrap that floating elmt - inline elmts are "buoyant"
+
+	Use clearfix: 
+		- creates pseudoelmts clearing elmts floating left or right. Are display blocks so they take up their own lines. They are added to DOM, but don't show up if they do not have content.
+
+		.clearfix::before, .clearfix::after {
+			clear: both;
+			display: block;
+			content: "";
+		}
+
+--> look up color keywords for CSS: 150 exist 
+
+SCSS: a framework to simplify writing CSS. (Sassy Cascading Style Sheets) --> refers to SASS, an older framework- syntactically awesome style sheets. 
+
+	- SASS was created bc ppl wanted sth easier than CSS. It compiles to CSS but has difft syntax. SCSS also compiles to CSS + has difft syntax but is newer.
+	- SCSS: 
+		- 'nesting'
+			article {
+				border: 1px solid green;
+				li {
+					background: lightgrey;
+				}
+			} --> compiles to CSS
+		- 'variables'
+			eg for colors: 
+			$deep-red: #990000; --> can be used anywhere else in SCSS 
+
+		- 'loops'
+			@for: $1 from 1 through 3 {
+				#h($1) {
+					font-size: $1 * 10px; -> should be related to size of header elmt
+				}
+			}
+		- 'functions' 
+			@mixin border-radius ($r) {
+				-webkit-border-radius: $r;
+				-moz-border-radius: $r;
+				border-radius: $r;
+			}
+
+			.thing {
+				@include border-radius(10px); -> calls border-radius fn 
+				padding: 10px;
+			}
+
+			inheritance: 
+
+			.pink-thing {
+				@extend .thing
+				background-color: deep-red;
+			}
+
+		- 'modules'
+			- pulls in normalize.scss and combines files in compiled css: 
+
+			@import 'normalize'; 
+
+	- node-sass tool looks for changes in scss and compiles those into css when build script is run. Also does some linting. 
+
+Responsive CSS 
+	- website should be fully fxnal for all screen sizes, resolutions, and orientations (landscape vs portrait)
+	- born out of necessity 
+	- developers + designers should cater to the user's envt, not the other way around. 
+
+	- switch views in dev tools 
+	- two steps to responsive CSS
+		- add meta tag: most mobile browsers scale HTML pgs to a wide viewport width so it fits on the screen
+		- use viewport meta tag to reset this
+
+		<meta name="viewport" ...>
+
+		- add media queries: defines certain styles for certain devices + views
+			- set default styles for page outside of media queries
+			- progressively target smaller pg sizes and let styles cascade
+			- make things flexible and fluid
+			- it is customary to add responsive media-query tags to a separate css file. 
+
+			eg 
+			min-width
+			- applies if viewing area is > 900px
+			@media print-->  also exists
+			@media screen and (min-width: 900px) {
+				.class {
+					background: #333;
+				}
+			}
+
+			multiple media queries: 
+			@media screen and (min-width: 600px) and (max-width: 900px) {
+
+			}
+
+			max-width: viewing area (browser size) 
+			max-device-width: device screen size. better to not use device width as best practices. 
+
+			- detect orientation: (in html) media="all and (orientation:portrait)"
+
+cf resources in lecture slides 
+- z-index controls 'depth' of elmts 
+- flexbox: CSS3 feature which helps w responsive 
+
+cf mobile-first design philosophy: things should look on phones first and then on desktops. 
+
+
+
+
+<!-- WORKSHOP NOTES --> 
+
+shoestring: like bootstrap, but has 3 key components- typography, grids, forms
+- navbar also 
+
+npm run build-css in separate window from npm start: the process will watch shoestrong.scss file for changes and compile to css
+
+production vs dev behavior: in production app, we want to serve up compiled, minified css files that exist - no changes anticipated. in dev - design alterations - scss files will be edited and a process will build taht into final scss. 
+
+a build process - a devt step in which files being worked on are baked/combined/edited/audited as a step towards producing final production app. automated build tools (task runners) - grunt, gulp. in this workshop npm takes care of it. 
+
+CSS is not a complete programming lang by itself-- it's not turing complete. 
+	- doesn't support dynamic concepts like vars, funs, loops, operators etc. 
+	Sass gives CSS these properties bc it is preprocessed. it is a superset of CSS
+
+	- express router uses static routing to send ordinary HTML pgs. global styles defined in modern-business.scss. navbar styles, normalize.scss normalizes across browsers. stylesheets are imported in shoestring.scss. 
+
+
+GRIDS!!!
+- in bootstrap -> container, row, col-size-units
+- columns have: 
+	- width defined by percentage of grid units they take up. if col is 12 units wide it is 100%; otherwise its the # provided by class name divided by # of grid units as a %. 
+	- padding defined by size of gutter in grid layout
+
+
+ordering always in css file; html inline order does not matter. 
+media query- define large columns in large mq, med in medium mq, and small in small mq. 
+The non-pertinent classes won't exist in the wrong screen size. 
+
+<!-- NOTES: Review -->
+
+in inline-block elmts, whitespace in html will add space between elmts when they are rendered. 
+- possible fixes: 1) inline - but it comes with its own problems; 
+2) doing inline-block and commenting out whitespace in HTML between <div> tags
+3) 99% like we did- but at v large screen sizes it could mess up alignment
+
+- if using float, make sure rows have clearfix applied so they clear pseudo-elements. 
+
+.clearfix {
+	&::before, &::after {
+		clear: both;
+		content: '';
+		display: block; 
+	} --> get pseudo-elmts before and after parent elmt
+}
+
+.row {
+	@extend .clearfix
+}
+- vertical-align top, display is inline-block for columns
+
+
+- gutters: 1) declare gutter-size variable. (has to be before columns) 
+$gutter-size: 15px;
+
+- add padding to columns: 
+padding: 0 $gutter-size;
+
+- to solve the issue of unbalanced padding-  (eg one column flush w edge of page; others have padding) - pseudo-class/elmt that selects last of type will select last sibling of that type of elmt; you can say, for this elmt, padding-right: 0 
+
+.col {
+	padding: 0 $gutter-size;
+	&:last-of-type {
+		padding-right: 0;
+	}
+}
+
+- setting margin-l/r to auto for elmts to center them works unless you're doing an inline-block elmt bc those have 0 by default; a workaround for this is to set text-align: center in the PARENT elmt of any inline-block elmts - that way, any inline-block elmts within will be centered correctly. 
+
+- form elmts: 
+@mixin make-cols($type) {
+	for $i from 1 through 12 {
+		.col-#{$type}-#{$i} {
+			float: left;
+			display: inline;
+			width: $i * 100%/12;
+			vertical-align: top;
+			padding: 0 $gutter-size
+		}
+	}
+}
+
+$type-sizes {
+	sm: 800px,
+	md: 1000px,
+	lg: 1200px
+}
+--> loop through sizes and types to make columns
+@each $type, $size in $type-sizes {
+	@media screen and (min-width: $size) {
+	@include make-cols($type);
+	}
+}
+
+- correct padding and width for input fields: 
+	.form-group {
+		padding: 0;
+		padding-right: 10px;
+		input {
+			width: 100%;
+		}
+		&:last-of-type {
+			padding-right: 0;
+		}
+	}
+
+- a tip when 'debugging' css: add bright and colorful border to elmts to be able to tell where padding/margin are 
+
+- font-weight: 400 is bold; 200 is thin 
+- cf smacss: scalable and modular architecture for CSS - on class organization 
+- cf gdi website for open-source project to contribute to. 
+- best practice: one class applied to parent elmt and styling on child elmts or tags within it; lots of nesting and complicated stylings is not best p
