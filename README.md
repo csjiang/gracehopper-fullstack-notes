@@ -13,6 +13,9 @@ Obsessively detailed notes from Grace Hopper Academy's full-stack immersive web 
 ##<a name="filetree"></a> 1. File structure tree 
 ```
 gracehopper-fullstack-notes
+├─ junior_review
+│  ├─ gifts_review/
+│  └─ notes_juniorphase_review
 ├─ foundations-notes
 │  ├─ 04_notes_loops.js
 │  ├─ 05_notes_scope_closure.js
@@ -60,9 +63,13 @@ gracehopper-fullstack-notes
    └─ notes_sequelizeexpress.js
 ```
 
-##<a name="latest"></a>  2. initial update: 12/11/2016
-- Notes are now up in their raw form.
-- There are a few workshops and lectures that I didn't take notes for. Those will be available once I've reviewed those modules, but I can't guarantee that will happen before next week. 
+##<a name="latest"></a>  2. 
+- second update: 12/14/2016
+	- I've added notes for the junior phase review session that Joe did with GH on Monday. 
+
+- initial update: 12/11/2016
+	- Notes are now up in their raw form.
+	- There are a few workshops and lectures that I didn't take notes for. Those will be available once I've reviewed those modules, but I can't guarantee that will happen before next week. 
 
 ##<a name="coming"></a>  Coming updates: 
 - At some point before the end of December, I will write a program to convert my notes for me from .js (and .html, and .sql) format to Github's .md format, so you will be able to read my notes right in the browser, without having to clone the repo to your computer and open it in a text editor. 
